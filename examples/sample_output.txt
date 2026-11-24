@@ -1,0 +1,57 @@
+$ ./build/redline examples/old.cpp examples/new.cpp
+--- examples/old.cpp
++++ examples/new.cpp
+@@ -1,5 +1,5 @@
++#include <deque>
+ #include <iostream>
+-#include <vector>
+ #include <string>
+ 
+ // keeps the last few commands the user typed
+@@ -8,9 +8,10 @@
+     explicit History(size_t limit) : limit_(limit) {}
+ 
+     void add(const std::string& cmd) {
++        if (cmd.empty()) return;   // ignore blank lines
+         items_.push_back(cmd);
+         if (items_.size() > limit_) {
+-            items_.erase(items_.begin());
++            items_.pop_front();
+         }
+     }
+ 
+@@ -20,17 +21,21 @@
+         }
+     }
+ 
++    size_t size() const { return items_.size(); }
++
+ private:
+     size_t limit_;
+-    std::vector<std::string> items_;
++    std::deque<std::string> items_;
+ };
+ 
+ int main() {
+-    History h(3);
++    History h(5);
+     std::string line;
+     while (std::getline(std::cin, line)) {
+         if (line == "history") {
+             h.print();
++        } else if (line == "count") {
++            std::cout << h.size() << " commands stored\n";
+         } else {
+             h.add(line);
+         }
+(exit code 1)
+
+$ ./build/redline examples/v1 examples/v2
+modified: README.md (+5 -1)
+modified: config.yml (+2 -1)
+added: docs/changelog.txt (2 lines)
+removed: docs/old_notes.txt (1 line)
+binary: logo.bin (binary, contents differ)
+modified: src/main.cpp (+4 -2)
+summary: 1 added, 1 removed, 3 modified, 1 binary, 1 unchanged
+(exit code 1)

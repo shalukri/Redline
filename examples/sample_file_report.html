@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>examples/old.cpp vs examples/new.cpp</title>
+<style>
+:root { color-scheme: light dark;
+  --bg:#f6f8fa; --fg:#1f2328; --muted:#656d76; --card:#ffffff; --line:#d0d7de; --accent:#0969da;
+  --add-bg:#e6ffec; --add-mark:#aceebb; --del-bg:#ffebe9; --del-mark:#ffc1ba; --hunk:#ddf4ff; --gap:#f0f3f6; }
+@media (prefers-color-scheme: dark) { :root {
+  --bg:#0d1117; --fg:#e6edf3; --muted:#8d96a0; --card:#161b22; --line:#30363d; --accent:#58a6ff;
+  --add-bg:#12261e; --add-mark:#1f6f3c; --del-bg:#2d1618; --del-mark:#8e2b2f; --hunk:#102a43; --gap:#1c2128; } }
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--fg);
+  font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+.wrap { max-width:1400px; margin:0 auto; padding:24px 16px 48px; }
+h1 { margin:0; font-size:1.5rem; letter-spacing:.02em; }
+.sub { margin:4px 0 20px; color:var(--muted); word-break:break-all; }
+.cards { display:flex; flex-wrap:wrap; gap:12px; margin-bottom:20px; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:10px 16px; min-width:120px; }
+.card b { display:block; font-size:1.6rem; line-height:1.2; }
+.card span { color:var(--muted); font-size:.85rem; }
+.clean { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:16px; }
+table.files { width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--line);
+  border-radius:8px; overflow:hidden; margin-bottom:24px; }
+table.files th, table.files td { text-align:left; padding:8px 12px; border-bottom:1px solid var(--line); }
+table.files th { font-size:.8rem; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); }
+table.files tr:last-child td { border-bottom:0; }
+table.files td.path { word-break:break-all; }
+a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; }
+.badge { display:inline-block; padding:1px 8px; border-radius:999px; font-size:.75rem; font-weight:600; border:1px solid var(--line); }
+.badge.added { background:var(--add-bg); } .badge.removed { background:var(--del-bg); }
+.badge.modified { background:var(--hunk); } .badge.binary { background:var(--gap); }
+.add { color:#1a7f37; } .del { color:#cf222e; }
+@media (prefers-color-scheme: dark) { .add { color:#3fb950; } .del { color:#f85149; } }
+details.file { background:var(--card); border:1px solid var(--line); border-radius:8px; margin-bottom:16px; overflow:hidden; }
+details.file > summary { cursor:pointer; padding:10px 14px; font-weight:600; word-break:break-all; }
+details.file > summary .num { margin-left:10px; font-weight:400; font-family:ui-monospace,monospace; }
+.scroll { overflow-x:auto; border-top:1px solid var(--line); }
+table.diff { width:100%; min-width:720px; border-collapse:collapse; table-layout:fixed;
+  font:13px/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+table.diff col.cln { width:3.6rem; }
+table.diff td { vertical-align:top; padding:0 8px; }
+td.ln { text-align:right; color:var(--muted); user-select:none; border-right:1px solid var(--line); }
+td.code { white-space:pre-wrap; overflow-wrap:anywhere; tab-size:4; }
+td.code.r { border-left:1px solid var(--line); }
+td.code.del { background:var(--del-bg); } td.code.ins { background:var(--add-bg); }
+td.code.empty { background:var(--gap); }
+td.code.del mark { background:var(--del-mark); color:inherit; border-radius:2px; }
+td.code.ins mark { background:var(--add-mark); color:inherit; border-radius:2px; }
+tr.hunk td { background:var(--hunk); color:var(--muted); padding:2px 12px; }
+tr.gap td { background:var(--gap); color:var(--muted); text-align:center; padding:2px 12px; font-style:italic; }
+.noeol { color:var(--muted); font-style:italic; margin-left:8px; user-select:none; }
+footer { color:var(--muted); font-size:.8rem; margin-top:32px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>redline</h1>
+<p class="sub">examples/old.cpp  -&gt;  examples/new.cpp</p>
+<div class="cards">
+<div class="card"><b>1</b><span>modified</span></div>
+<div class="card"><b>0</b><span>added</span></div>
+<div class="card"><b>0</b><span>removed</span></div>
+<div class="card"><b>0</b><span>unchanged</span></div>
+<div class="card"><b><span class="add">+9</span> <span class="del">-4</span></b><span>lines changed</span></div>
+</div>
+<table class="files">
+<tr><th>File</th><th>Status</th><th>Changes</th><th>Note</th></tr>
+<tr data-path="examples/new.cpp" data-status="modified"><td class="path"><a href="#f0">examples/new.cpp</a></td><td><span class="badge modified">modified</span></td><td><span class="add">+9</span> <span class="del">-4</span></td><td></td></tr>
+</table>
+<details class="file" id="f0" open>
+<summary>examples/new.cpp<span class="num"><span class="add">+9</span> <span class="del">-4</span></span></summary>
+<div class="scroll">
+<table class="diff"><colgroup><col class="cln"><col><col class="cln"><col></colgroup>
+<tr class="hunk"><td colspan="4">@@ -1,5 +1,5 @@</td></tr>
+<tr class="ins"><td class="ln"></td><td class="code l empty"></td><td class="ln">1</td><td class="code r ins">#include &lt;deque&gt;</td></tr>
+<tr class="eq"><td class="ln">1</td><td class="code l ">#include &lt;iostream&gt;</td><td class="ln">2</td><td class="code r ">#include &lt;iostream&gt;</td></tr>
+<tr class="del"><td class="ln">2</td><td class="code l del">#include &lt;vector&gt;</td><td class="ln"></td><td class="code r empty"></td></tr>
+<tr class="eq"><td class="ln">3</td><td class="code l ">#include &lt;string&gt;</td><td class="ln">3</td><td class="code r ">#include &lt;string&gt;</td></tr>
+<tr class="eq"><td class="ln">4</td><td class="code l "></td><td class="ln">4</td><td class="code r "></td></tr>
+<tr class="eq"><td class="ln">5</td><td class="code l ">// keeps the last few commands the user typed</td><td class="ln">5</td><td class="code r ">// keeps the last few commands the user typed</td></tr>
+<tr class="gap"><td colspan="4">2 unchanged lines hidden</td></tr>
+<tr class="hunk"><td colspan="4">@@ -8,9 +8,10 @@</td></tr>
+<tr class="eq"><td class="ln">8</td><td class="code l ">    explicit History(size_t limit) : limit_(limit) {}</td><td class="ln">8</td><td class="code r ">    explicit History(size_t limit) : limit_(limit) {}</td></tr>
+<tr class="eq"><td class="ln">9</td><td class="code l "></td><td class="ln">9</td><td class="code r "></td></tr>
+<tr class="eq"><td class="ln">10</td><td class="code l ">    void add(const std::string&amp; cmd) {</td><td class="ln">10</td><td class="code r ">    void add(const std::string&amp; cmd) {</td></tr>
+<tr class="ins"><td class="ln"></td><td class="code l empty"></td><td class="ln">11</td><td class="code r ins">        if (cmd.empty()) return;   // ignore blank lines</td></tr>
+<tr class="eq"><td class="ln">11</td><td class="code l ">        items_.push_back(cmd);</td><td class="ln">12</td><td class="code r ">        items_.push_back(cmd);</td></tr>
+<tr class="eq"><td class="ln">12</td><td class="code l ">        if (items_.size() &gt; limit_) {</td><td class="ln">13</td><td class="code r ">        if (items_.size() &gt; limit_) {</td></tr>
+<tr class="chg"><td class="ln">13</td><td class="code l del">            items_.<mark>erase</mark>(<mark>items_.begin(</mark>)<mark>)</mark>;</td><td class="ln">14</td><td class="code r ins">            items_.<mark>pop_front</mark>();</td></tr>
+<tr class="eq"><td class="ln">14</td><td class="code l ">        }</td><td class="ln">15</td><td class="code r ">        }</td></tr>
+<tr class="eq"><td class="ln">15</td><td class="code l ">    }</td><td class="ln">16</td><td class="code r ">    }</td></tr>
+<tr class="eq"><td class="ln">16</td><td class="code l "></td><td class="ln">17</td><td class="code r "></td></tr>
+<tr class="gap"><td colspan="4">3 unchanged lines hidden</td></tr>
+<tr class="hunk"><td colspan="4">@@ -20,17 +21,21 @@</td></tr>
+<tr class="eq"><td class="ln">20</td><td class="code l ">        }</td><td class="ln">21</td><td class="code r ">        }</td></tr>
+<tr class="eq"><td class="ln">21</td><td class="code l ">    }</td><td class="ln">22</td><td class="code r ">    }</td></tr>
+<tr class="eq"><td class="ln">22</td><td class="code l "></td><td class="ln">23</td><td class="code r "></td></tr>
+<tr class="ins"><td class="ln"></td><td class="code l empty"></td><td class="ln">24</td><td class="code r ins">    size_t size() const { return items_.size(); }</td></tr>
+<tr class="ins"><td class="ln"></td><td class="code l empty"></td><td class="ln">25</td><td class="code r ins"></td></tr>
+<tr class="eq"><td class="ln">23</td><td class="code l ">private:</td><td class="ln">26</td><td class="code r ">private:</td></tr>
+<tr class="eq"><td class="ln">24</td><td class="code l ">    size_t limit_;</td><td class="ln">27</td><td class="code r ">    size_t limit_;</td></tr>
+<tr class="chg"><td class="ln">25</td><td class="code l del">    std::<mark>vector</mark>&lt;std::string&gt; items_;</td><td class="ln">28</td><td class="code r ins">    std::<mark>deque</mark>&lt;std::string&gt; items_;</td></tr>
+<tr class="eq"><td class="ln">26</td><td class="code l ">};</td><td class="ln">29</td><td class="code r ">};</td></tr>
+<tr class="eq"><td class="ln">27</td><td class="code l "></td><td class="ln">30</td><td class="code r "></td></tr>
+<tr class="eq"><td class="ln">28</td><td class="code l ">int main() {</td><td class="ln">31</td><td class="code r ">int main() {</td></tr>
+<tr class="chg"><td class="ln">29</td><td class="code l del">    History h(<mark>3</mark>);</td><td class="ln">32</td><td class="code r ins">    History h(<mark>5</mark>);</td></tr>
+<tr class="eq"><td class="ln">30</td><td class="code l ">    std::string line;</td><td class="ln">33</td><td class="code r ">    std::string line;</td></tr>
+<tr class="eq"><td class="ln">31</td><td class="code l ">    while (std::getline(std::cin, line)) {</td><td class="ln">34</td><td class="code r ">    while (std::getline(std::cin, line)) {</td></tr>
+<tr class="eq"><td class="ln">32</td><td class="code l ">        if (line == &quot;history&quot;) {</td><td class="ln">35</td><td class="code r ">        if (line == &quot;history&quot;) {</td></tr>
+<tr class="eq"><td class="ln">33</td><td class="code l ">            h.print();</td><td class="ln">36</td><td class="code r ">            h.print();</td></tr>
+<tr class="ins"><td class="ln"></td><td class="code l empty"></td><td class="ln">37</td><td class="code r ins">        } else if (line == &quot;count&quot;) {</td></tr>
+<tr class="ins"><td class="ln"></td><td class="code l empty"></td><td class="ln">38</td><td class="code r ins">            std::cout &lt;&lt; h.size() &lt;&lt; &quot; commands stored\n&quot;;</td></tr>
+<tr class="eq"><td class="ln">34</td><td class="code l ">        } else {</td><td class="ln">39</td><td class="code r ">        } else {</td></tr>
+<tr class="eq"><td class="ln">35</td><td class="code l ">            h.add(line);</td><td class="ln">40</td><td class="code r ">            h.add(line);</td></tr>
+<tr class="eq"><td class="ln">36</td><td class="code l ">        }</td><td class="ln">41</td><td class="code r ">        }</td></tr>
+<tr class="gap"><td colspan="4">3 unchanged lines hidden</td></tr>
+</table>
+</div>
+</details>
+<footer>Generated by redline. This page is self contained: no scripts, no external files.</footer>
+</div>
+</body>
+</html>
